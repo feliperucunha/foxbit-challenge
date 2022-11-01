@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import Title from '../components/Title';
 import { useAppContext } from '../context';
 import { Card, Loader } from '../components';
-import CardGrid from './styles';
+import { GlobalStyle, CardGrid } from './styles';
 
 export default function Home() {
   const { cryptoData, setCryptoData } = useAppContext();
@@ -48,24 +48,25 @@ export default function Home() {
 
 
       // RESPONSE WITH ALL CRYPTOS
-      // if (channel === 'GetInstruments') {
-      //   console.log(data, 'all');
-      // }
+      if (channel === 'GetInstruments') {
+        console.log(data, 'all');
+      }
 
-      // // FIRST RESPONSE
-      // if (channel === 'SubscribeLevel1') {
-      //   console.log(data, 'first');
-      // }
+      // FIRST RESPONSE
+      if (channel === 'SubscribeLevel1') {
+        console.log(data, 'first');
+      }
 
-      // // UPDATES TO SUBSCRIBELEVEL1
-      // if (channel === 'Level1UpdateEvent') {
-      //   console.log(data, 'updates');
-      // }
+      // UPDATES TO SUBSCRIBELEVEL1
+      if (channel === 'Level1UpdateEvent') {
+        console.log(data, 'updates');
+      }
     });
   }, []);
 
   return (
     <div>
+      <GlobalStyle />
       <Head>
         <title>Foxbit - Frontend Challenge</title>
         <meta name="description" content="Foxbit frontend challenge" />
