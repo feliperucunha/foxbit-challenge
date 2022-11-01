@@ -2,10 +2,11 @@ import Head from 'next/head'
 import { useEffect } from 'react';
 import Title from '../components/Title';
 import { useAppContext } from '../context';
-import { Card } from '../components';
+import { Card, Loader } from '../components';
+import CardGrid from './styles';
 
 export default function Home() {
-  const { setCryptoData } = useAppContext();
+  const { cryptoData, setCryptoData } = useAppContext();
 
   useEffect(() => {
     const ws = new WebSocket('wss://api.foxbit.com.br/');
@@ -43,22 +44,23 @@ export default function Home() {
       const channel = n; // GetInstruments | SubscribeLevel1 | Level1UpdateEvent
       const data = JSON.parse(o);
 
-      setCryptoData(data);
+      if (data.length > 1) setCryptoData(data);
+
 
       // RESPONSE WITH ALL CRYPTOS
-      if (channel === 'GetInstruments') {
-        console.log(data, 'all');
-      }
+      // if (channel === 'GetInstruments') {
+      //   console.log(data, 'all');
+      // }
 
-      // FIRST RESPONSE
-      if (channel === 'SubscribeLevel1') {
-        console.log(data, 'first');
-      }
+      // // FIRST RESPONSE
+      // if (channel === 'SubscribeLevel1') {
+      //   console.log(data, 'first');
+      // }
 
-      // UPDATES TO SUBSCRIBELEVEL1
-      if (channel === 'Level1UpdateEvent') {
-        console.log(data, 'updates');
-      }
+      // // UPDATES TO SUBSCRIBELEVEL1
+      // if (channel === 'Level1UpdateEvent') {
+      //   console.log(data, 'updates');
+      // }
     });
   }, []);
 
@@ -71,7 +73,16 @@ export default function Home() {
       </Head>
       <main>
         <Title>Foxbit - Frontend Challenge</Title>
-        <Card />
+        {console.log(cryptoData)}
+        {cryptoData.length < 1 ? 
+          <Loader />
+        : 
+          <CardGrid>
+            {cryptoData.map((crypto) => 
+              <Card {...crypto} />
+            )}
+          </CardGrid>
+        }
       </main>
     </div>
   )

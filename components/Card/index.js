@@ -1,14 +1,14 @@
 import React from 'react';
-import { useAppContext } from '../../context';
+import CardContainer from './styles';
 
-const Card = () => {
-  const { cryptoData } = useAppContext();
+const Card = (data) => {
 
   return (
-    <div>Card
-
-    {console.log(cryptoData, 'card component  ')}
-    </div>
+    <>
+      <CardContainer>
+        {data.Symbol}
+      </CardContainer>
+    </>
   )
 }
 
