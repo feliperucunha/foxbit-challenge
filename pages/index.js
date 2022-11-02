@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Title from '../components/Title';
 import { useAppContext } from '../context';
 import { Card, Loader } from '../components';
@@ -7,6 +7,8 @@ import { GlobalStyle, CardGrid } from './styles';
 
 export default function Home() {
   const { cryptoData, setCryptoData } = useAppContext();
+  const [ specificData, setSpecificData ] = useState();
+  const [ stopSignal, setStopSignal ] = useState(true);
 
   useEffect(() => {
     const ws = new WebSocket('wss://api.foxbit.com.br/');
@@ -25,14 +27,28 @@ export default function Home() {
       ws.send(JSON.stringify(payloadInstruments));
 
       // EXAMPLE SUBSCRIBE BTCBRL
-      const payload = {
-        m: 0,
-        i: 2,
-        n: 'SubscribeLevel1',
-        o: JSON.stringify({ InstrumentId: 1 }),
-      }
+      // const payload = {
+      //   m: 0,
+      //   i: 2,
+      //   n: 'SubscribeLevel1',
+      //   o: JSON.stringify({ InstrumentId: 1}),
+      // }
 
-      ws.send(JSON.stringify(payload));
+      // ws.send(JSON.stringify(payload));
+
+      if (cryptoData.length > 1 && stopSignal) {
+        cryptoData.map((crypto) => {
+          const variablePayload = {
+            m: 0,
+            i: 2,
+            n: 'SubscribeLevel1',
+            o: JSON.stringify({ InstrumentId: crypto.InstrumentId || 1}),
+          }
+  
+          ws.send(JSON.stringify(variablePayload));
+        })
+        setStopSignal(false)
+      }
     });
 
     ws.addEventListener('close', function close() {
@@ -42,10 +58,10 @@ export default function Home() {
     ws.addEventListener('message', function message(response) {
       const { n, o } = JSON.parse(response.data);
       const channel = n; // GetInstruments | SubscribeLevel1 | Level1UpdateEvent
-      const data = JSON.parse(o);
-
-      if (data.length > 1) setCryptoData(data);
-
+      if (o) {
+        const data = JSON.parse(o);
+        if (data.length > 1) setCryptoData(data);
+      }
 
       // RESPONSE WITH ALL CRYPTOS
       if (channel === 'GetInstruments') {
@@ -60,9 +76,10 @@ export default function Home() {
       // UPDATES TO SUBSCRIBELEVEL1
       if (channel === 'Level1UpdateEvent') {
         console.log(data, 'updates');
+        setSpecificData(data);
       }
     });
-  }, []);
+  }, [cryptoData]);
 
   return (
     <div>
@@ -74,13 +91,12 @@ export default function Home() {
       </Head>
       <main>
         <Title>Foxbit - Frontend Challenge</Title>
-        {console.log(cryptoData)}
         {cryptoData.length < 1 ? 
           <Loader />
         : 
           <CardGrid>
             {cryptoData.map((crypto) => 
-              <Card {...crypto} />
+              <Card broadData={crypto} specificData={specificData} key={crypto.InstrumentId} />
             )}
           </CardGrid>
         }
