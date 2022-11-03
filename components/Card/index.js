@@ -67,7 +67,7 @@ const Card = (props) => {
               Volume (24h): 
             </VolumeTag>
           <VolumeSpan>
-            {coinVolume} {coinSymbol}
+            {moneyFormatter.format(coinVolume).substring(3)} {coinSymbol}
           </VolumeSpan>
         </VolumeContainer>
       </CardContainer>

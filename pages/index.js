@@ -95,7 +95,6 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Title>Foxbit - Frontend Challenge</Title>
         {cryptoData && cryptoData.length < 1 ? 
           <Loader />
         : 

@@ -8,7 +8,6 @@ export const GlobalStyle = createGlobalStyle`
 `;
 
 export const CardGrid = styled.div`
-  width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fit, 176px);
   gap: 0.75rem;
@@ -17,6 +16,10 @@ export const CardGrid = styled.div`
   flex: 0 1 0%;
   overflow-y: auto;
   height: 100vh;
-  padding: 20px 0.75rem;
+  padding: 2rem 4rem;
+
+  @media (max-width: 520px) {
+    padding: 2rem 1rem;
+  }
 `;
 
