@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { BsArrowDown, BsArrowUp } from 'react-icons/bs';
 import { CardContainer, ImageContainer, PriceContainer, VolumeContainer, VariationContainer, PriceSpan, VariationSpan, VolumeSpan, PriceTag, VolumeTag, PositiveVariationContainer, PositiveVariationSpan } from './styles';
+import { imagesFallback, imagesFirstLink, imagesSecondLink } from '../../constants';
 
 const Card = (props) => {
-  const imageLink = props.broadData.Product1Symbol.toLocaleLowerCase() || 'default-currency';
+  const imageLink = props.broadData.Product1Symbol.toLocaleLowerCase() || imagesFallback;
   const [image, setImage] = useState(imageLink);
   const [coinValue, setCoinValue] = useState('--');
   const [coinVolume, setCoinVolume] = useState('-- --');
@@ -12,7 +13,7 @@ const Card = (props) => {
   const [cardId, setCardId] = useState('');
   const [coinSymbol, setCoinSymbol] = useState(props.broadData.Product1Symbol || '');
 
-  const onError = () => setImage('default-currency');
+  const onError = () => setImage(imagesFallback);
   const negativeCheckRegex = /^\-.*$/;
   const moneyFormatter = new Intl.NumberFormat('pt-BR', {
     style: 'currency',
@@ -34,7 +35,7 @@ const Card = (props) => {
     <div data-testid={`card-${cardId}`}>
       <CardContainer>
         <ImageContainer>
-          <img onError={onError} alt='icon' src={`https://statics.foxbit.com.br/icons/colored/${image}.svg`} />
+          <img onError={onError} alt='icon' src={`${imagesFirstLink}${image}${imagesSecondLink}`} />
         </ImageContainer>
 
         {props.broadData.Symbol}

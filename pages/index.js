@@ -1,6 +1,5 @@
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
-import Title from '../components/Title';
 import { Card, Loader } from '../components';
 import { GlobalStyle, CardGrid } from './styles';
 
@@ -59,12 +58,16 @@ export default function Home() {
       const { n, o } = JSON.parse(response.data);
       const channel = n; // GetInstruments | SubscribeLevel1 | Level1UpdateEvent
       let data = []
-      if (o) {
+
+      const setDataAndStopSignal = () => {
         data = JSON.parse(o);
         if (data.length > 1) {
           setCryptoData(data);
           setFirstFetchStopSignal(true);
         }
+      }
+      if (o) {
+        setDataAndStopSignal();
       }
 
       // RESPONSE WITH ALL CRYPTOS
