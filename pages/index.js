@@ -8,6 +8,7 @@ export default function Home() {
   const [ cryptoData, setCryptoData ] = useState([]);
   const [ specificData, setSpecificData ] = useState();
   const [ stopSignal, setStopSignal ] = useState(true);
+  const [ firstFetchStopSignal, setFirstFetchStopSignal ] = useState(false);
 
   useEffect(() => {
     const ws = new WebSocket('wss://api.foxbit.com.br/');
@@ -60,17 +61,21 @@ export default function Home() {
       let data = []
       if (o) {
         data = JSON.parse(o);
-        if (data.length > 1) setCryptoData(data);
+        if (data.length > 1) {
+          setCryptoData(data);
+          setFirstFetchStopSignal(true);
+        }
       }
 
       // RESPONSE WITH ALL CRYPTOS
-      if (channel === 'GetInstruments') {
+      if (channel === 'GetInstruments' && !firstFetchStopSignal) {
         console.log(data, 'all');
       }
 
       // FIRST RESPONSE
-      if (channel === 'SubscribeLevel1') {
+      if (channel === 'SubscribeLevel1' && !firstFetchStopSignal) {
         console.log(data, 'first');
+        setSpecificData(data);
       }
 
       // UPDATES TO SUBSCRIBELEVEL1
