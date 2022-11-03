@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BsArrowDown, BsArrowUp } from 'react-icons/bs';
-import { CardContainer, ImageContainer, PriceContainer, VolumeContainer, VariationContainer, PriceSpan, VariationSpan, VolumeSpan, PriceTag, VolumeTag, PositiveVariationContainer, PositiveVariationSpan } from './styles';
+import { CardContainer, ImageContainer, PriceContainer, VolumeContainer, VariationContainer, PriceSpan, VariationSpan, VolumeSpan, PriceTag, VolumeTag } from './styles';
 import { imagesFallback, imagesFirstLink, imagesSecondLink } from '../../constants';
 
 const Card = (props) => {
@@ -40,17 +40,17 @@ const Card = (props) => {
 
         {props.broadData.Symbol}
         {isVariationNegative ? (
-          <VariationContainer>
-            <VariationSpan>
+          <VariationContainer color={'rgb(252, 237, 237)'}>
+            <VariationSpan color={'rgb(92, 48, 48)'}>
               <BsArrowDown size='10'/>{coinVariation.toString().substring(1)}%
             </VariationSpan>
           </VariationContainer>
         ) : (
-          <PositiveVariationContainer>
-          <PositiveVariationSpan>
+          <VariationContainer color={'rgb(235, 250, 244)'}>
+          <VariationSpan color={'rgb(33, 71, 57)'}>
             <BsArrowUp size='10'/>{coinVariation}%
-          </PositiveVariationSpan>
-        </PositiveVariationContainer>
+          </VariationSpan>
+        </VariationContainer>
         )}
 
         <PriceContainer>
