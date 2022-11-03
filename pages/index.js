@@ -2,7 +2,7 @@
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import { Card, Loader } from '../components';
-import { GlobalStyle, CardGrid } from './styles';
+import { GlobalStyle, CardGrid } from '../GlobalStyles';
 
 export default function Home() {
   const [ cryptoData, setCryptoData ] = useState([]);
