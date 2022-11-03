@@ -88,6 +88,7 @@ export default function Home() {
         setSpecificData(data);
       }
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cryptoData]);
 
   return (

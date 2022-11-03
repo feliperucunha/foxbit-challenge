@@ -30,6 +30,7 @@ const Card = (props) => {
       setCoinVariation(props.specificData.Rolling24HrPxChange);
       setIsVariationNegative(negativeCheckRegex.exec(props.specificData.Rolling24HrPxChange));
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.specificData]);
 
   return (
