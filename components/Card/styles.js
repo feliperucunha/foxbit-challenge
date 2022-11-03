@@ -44,12 +44,52 @@ export const PriceSpan = styled.span`
   font-size: 1.25rem;
 `;
 
+export const PositiveVariationContainer = styled.div`
+  display: flex;
+  -webkit-box-pack: end;
+  justify-content: flex-end;
+  min-width: 48px;
+  position: absolute;
+  background: rgb(235, 250, 244);
+  border-radius: 12px;
+  line-height: 0;
+  padding: 0.25rem 0.25rem 0.25rem 0.5rem;
+  top: 1.5rem;
+  right: 1.25rem;
+`;
+
+export const PositiveVariationSpan = styled.span`
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  color: rgb(33, 71, 57);
+  font-family: gilroysemi_bold;
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+`;
+
 export const VariationContainer = styled.div`
-  
+  display: flex;
+  -webkit-box-pack: end;
+  justify-content: flex-end;
+  min-width: 48px;
+  position: absolute;
+  background: rgb(252, 237, 237);
+  border-radius: 12px;
+  line-height: 0;
+  padding: 0.25rem 0.25rem 0.25rem 0.5rem;
+  top: 1.5rem;
+  right: 1.25rem;
 `;
 
 export const VariationSpan = styled.span`
-  
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  color: rgb(92, 48, 48);
+  font-family: gilroysemi_bold;
+  font-size: 0.75rem;
+  line-height: 0.75rem;
 `;
 
 export const VolumeContainer = styled.div`

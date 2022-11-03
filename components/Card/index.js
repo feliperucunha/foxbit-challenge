@@ -1,19 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { CardContainer, ImageContainer, PriceContainer, VolumeContainer, VariationContainer, PriceSpan, VariationSpan, VolumeSpan, PriceTag, VolumeTag } from './styles';
+import { BsArrowDown, BsArrowUp } from 'react-icons/bs';
+import { CardContainer, ImageContainer, PriceContainer, VolumeContainer, VariationContainer, PriceSpan, VariationSpan, VolumeSpan, PriceTag, VolumeTag, PositiveVariationContainer, PositiveVariationSpan } from './styles';
 
 const Card = (props) => {
-  const [image, setImage] = useState(props.broadData.Product1Symbol.toLocaleLowerCase());
+  const imageLink = props.broadData.Product1Symbol.toLocaleLowerCase() || 'default-currency';
+  const [image, setImage] = useState(imageLink);
   const [coinValue, setCoinValue] = useState('');
   const [coinVolume, setCoinVolume] = useState('');
-  const [coinSymbol, setCoinSymbol] = useState(props.broadData.Product1Symbol);
+  const [coinVariation, setCoinVariation] = useState('');
+  const [isVariationNegative, setIsVariationNegative] = useState(false);
+  const [cardId, setCardId] = useState('');
+  const [coinSymbol, setCoinSymbol] = useState(props.broadData.Product1Symbol || '');
 
   const onError = () => setImage('default-currency');
+  const negativeCheckRegex = /^\-.*$/;
 
   useEffect(() => {
     if (props.specificData && (props.specificData.InstrumentId === props.broadData.InstrumentId)) {
-      console.log('aaaaa', props.specificData.InstrumentId, props.broadData.InstrumentId)
       setCoinValue(props.specificData.BestOffer);
       setCoinVolume(props.specificData.Rolling24HrVolume);
+      setCardId(props.specificData.InstrumentId);
+      setCoinVariation(props.specificData.Rolling24HrPxChange);
+      setIsVariationNegative(negativeCheckRegex.exec(props.specificData.Rolling24HrPxChange));
     }
   }, [props.specificData]);
 
@@ -24,17 +32,26 @@ const Card = (props) => {
   });
 
   return (
-    <>
+    <div data-testid={`card-${cardId}`}>
       <CardContainer>
         <ImageContainer>
           <img onError={onError} alt='icon' src={`https://statics.foxbit.com.br/icons/colored/${image}.svg`} />
         </ImageContainer>
 
         {props.broadData.Symbol}
-        <VariationContainer>
-          <VariationSpan>
-          </VariationSpan>
-        </VariationContainer>
+        {isVariationNegative ? (
+          <VariationContainer>
+            <VariationSpan>
+              <BsArrowDown size='10'/>{coinVariation.toString().substring(1)}%
+            </VariationSpan>
+          </VariationContainer>
+        ) : (
+          <PositiveVariationContainer>
+          <PositiveVariationSpan>
+            <BsArrowUp size='10'/>{coinVariation}%
+          </PositiveVariationSpan>
+        </PositiveVariationContainer>
+        )}
 
         <PriceContainer>
             <PriceTag>
@@ -54,8 +71,8 @@ const Card = (props) => {
           </VolumeSpan>
         </VolumeContainer>
       </CardContainer>
-    </>
+    </div>
   )
 }
 
-export default Card
+export default Card;

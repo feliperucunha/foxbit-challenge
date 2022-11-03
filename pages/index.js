@@ -1,12 +1,11 @@
-import Head from 'next/head'
+import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import Title from '../components/Title';
-import { useAppContext } from '../context';
 import { Card, Loader } from '../components';
 import { GlobalStyle, CardGrid } from './styles';
 
 export default function Home() {
-  const { cryptoData, setCryptoData } = useAppContext();
+  const [ cryptoData, setCryptoData ] = useState([]);
   const [ specificData, setSpecificData ] = useState();
   const [ stopSignal, setStopSignal ] = useState(true);
 
@@ -58,8 +57,9 @@ export default function Home() {
     ws.addEventListener('message', function message(response) {
       const { n, o } = JSON.parse(response.data);
       const channel = n; // GetInstruments | SubscribeLevel1 | Level1UpdateEvent
+      let data = []
       if (o) {
-        const data = JSON.parse(o);
+        data = JSON.parse(o);
         if (data.length > 1) setCryptoData(data);
       }
 
@@ -82,7 +82,7 @@ export default function Home() {
   }, [cryptoData]);
 
   return (
-    <div>
+    <div data-testid='home-1'>
       <GlobalStyle />
       <Head>
         <title>Foxbit - Frontend Challenge</title>
@@ -91,11 +91,11 @@ export default function Home() {
       </Head>
       <main>
         <Title>Foxbit - Frontend Challenge</Title>
-        {cryptoData.length < 1 ? 
+        {cryptoData && cryptoData.length < 1 ? 
           <Loader />
         : 
           <CardGrid>
-            {cryptoData.map((crypto) => 
+            {cryptoData && cryptoData.map((crypto) => 
               <Card broadData={crypto} specificData={specificData} key={crypto.InstrumentId} />
             )}
           </CardGrid>
