@@ -18,7 +18,7 @@ const Card = (props) => {
   const moneyFormatter = new Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL',
-    minimumFractionDigits: 2
+    minimumFractionDigits: 4,
   });
 
   useEffect(() => {
