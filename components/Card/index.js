@@ -5,31 +5,30 @@ import { CardContainer, ImageContainer, PriceContainer, VolumeContainer, Variati
 const Card = (props) => {
   const imageLink = props.broadData.Product1Symbol.toLocaleLowerCase() || 'default-currency';
   const [image, setImage] = useState(imageLink);
-  const [coinValue, setCoinValue] = useState('');
-  const [coinVolume, setCoinVolume] = useState('');
-  const [coinVariation, setCoinVariation] = useState('');
+  const [coinValue, setCoinValue] = useState('--');
+  const [coinVolume, setCoinVolume] = useState('-- --');
+  const [coinVariation, setCoinVariation] = useState('--');
   const [isVariationNegative, setIsVariationNegative] = useState(false);
   const [cardId, setCardId] = useState('');
   const [coinSymbol, setCoinSymbol] = useState(props.broadData.Product1Symbol || '');
 
   const onError = () => setImage('default-currency');
   const negativeCheckRegex = /^\-.*$/;
-
-  useEffect(() => {
-    if (props.specificData && (props.specificData.InstrumentId === props.broadData.InstrumentId)) {
-      setCoinValue(props.specificData.BestOffer);
-      setCoinVolume(props.specificData.Rolling24HrVolume);
-      setCardId(props.specificData.InstrumentId);
-      setCoinVariation(props.specificData.Rolling24HrPxChange);
-      setIsVariationNegative(negativeCheckRegex.exec(props.specificData.Rolling24HrPxChange));
-    }
-  }, [props.specificData]);
-
   const moneyFormatter = new Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL',
     minimumFractionDigits: 2
   });
+
+  useEffect(() => {
+    if (props.specificData && (props.specificData.InstrumentId === props.broadData.InstrumentId)) {
+      setCoinValue(moneyFormatter.format(props.specificData.LastTradedPx).substring(3));
+      setCoinVolume(moneyFormatter.format(props.specificData.Rolling24HrVolume).substring(3));
+      setCardId(props.specificData.InstrumentId);
+      setCoinVariation(props.specificData.Rolling24HrPxChange);
+      setIsVariationNegative(negativeCheckRegex.exec(props.specificData.Rolling24HrPxChange));
+    }
+  }, [props.specificData]);
 
   return (
     <div data-testid={`card-${cardId}`}>
@@ -58,7 +57,7 @@ const Card = (props) => {
               R$
             </PriceTag>
           <PriceSpan>
-            {moneyFormatter.format(coinValue).substring(3)}
+            {coinValue}
           </PriceSpan>
         </PriceContainer>
 
@@ -67,7 +66,7 @@ const Card = (props) => {
               Volume (24h): 
             </VolumeTag>
           <VolumeSpan>
-            {moneyFormatter.format(coinVolume).substring(3)} {coinSymbol}
+            {coinVolume} {coinSymbol}
           </VolumeSpan>
         </VolumeContainer>
       </CardContainer>

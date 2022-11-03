@@ -26,6 +26,7 @@ export const ImageContainer = styled.div`
 
 export const PriceContainer = styled.div`
   margin-bottom: 0.25rem;
+  margin-top: 0.25rem;
   display: block;
 `;
 
