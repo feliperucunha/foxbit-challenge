@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 import { BsArrowDown, BsArrowUp } from 'react-icons/bs';
 import { CardContainer, ImageContainer, PriceContainer, VolumeContainer, VariationContainer, PriceSpan, VariationSpan, VolumeSpan, PriceTag, VolumeTag } from './styles';

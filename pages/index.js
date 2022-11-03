@@ -1,3 +1,4 @@
+/* eslint-disable react/react-in-jsx-scope */
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import { Card, Loader } from '../components';
