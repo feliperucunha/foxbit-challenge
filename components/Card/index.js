@@ -1,6 +1,8 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 import { BsArrowDown, BsArrowUp } from 'react-icons/bs';
+import Image from 'next/image';
 import { CardContainer, ImageContainer, PriceContainer, VolumeContainer, VariationContainer, PriceSpan, VariationSpan, VolumeSpan, PriceTag, VolumeTag } from './styles';
 import { imagesFallback, imagesFirstLink, imagesSecondLink } from '../../constants';
 
